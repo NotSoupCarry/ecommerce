@@ -24,6 +24,8 @@
         placeholder="Quantità"
       />
     </label>
+
+    <!-- Disabilita se la quantità nel carrello è già maggiore di 0 -->
     <button
       (click)="aggiungiAlCarrello(prodotto.id!, quantita[prodotto.id!] || 1)"
     >

@@ -35,6 +35,12 @@ public class CarrelloUtenteService {
         return carrelloUtenteRepository.save(carrello);
     }
 
+    //elimina un prodotto dal carello
+    @Transactional
+    public void eliminaDalCarello(Long utenteId, Long prodottoId) {
+        carrelloUtenteRepository.deleteByUtenteIdAndProdottoId(utenteId, prodottoId);
+    }
+
     // Visualizza carrello di un utente specifico
     public List<CarrelloUtente> getCarrelloByUtenteId(Long utenteId) {
         return carrelloUtenteRepository.findByUtenteId(utenteId);

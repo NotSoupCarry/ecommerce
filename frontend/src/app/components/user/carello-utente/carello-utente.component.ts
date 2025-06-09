@@ -24,6 +24,10 @@ export class CarelloUtenteComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.caricaCarrello();
+  }
+
+  caricaCarrello(): void {
     const utenteId = this.authService.getIdUser();
     if (utenteId) {
       this.carrelloService.getCarrelloByUtenteId(utenteId).subscribe({
@@ -42,5 +46,25 @@ export class CarelloUtenteComponent implements OnInit {
     } else {
       this.errore = 'Utente non autenticato.';
     }
+  }
+
+  eliminaProdottoDalCarrello(prodottoId: number): void {
+    const utenteId = this.authService.getIdUser();
+    if (!utenteId) {
+      this.errore = 'Utente non autenticato';
+      return;
+    }
+
+    this.carrelloService.eliminaDalCarrello(utenteId, prodottoId).subscribe({
+      next: () => {
+        alert('Prodotto rimosso dal carrello');
+        this.caricaCarrello(); // Ricarica la lista aggiornata
+      },
+      error: (err) => {
+        this.errore = 'Errore durante la rimozione del prodotto';
+                this.caricaCarrello(); // Ricarica la lista aggiornata
+        console.error(err);
+      },
+    });
   }
 }

@@ -62,4 +62,16 @@ export class CarrelloUtenteService {
       { headers }
     );
   }
+
+  /**
+   * Rimuove un prodotto dal carrello di un utente
+   */
+  eliminaDalCarrello(utenteId: number, prodottoId: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+
+    return this.http.delete(
+      `${this.apiUrl}/elimina/${utenteId}/${prodottoId}`,
+      { headers }
+    );
+  }
 }

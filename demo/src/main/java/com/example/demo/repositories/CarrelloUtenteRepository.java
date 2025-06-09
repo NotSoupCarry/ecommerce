@@ -12,4 +12,6 @@ public interface CarrelloUtenteRepository extends JpaRepository<CarrelloUtente, 
     List<CarrelloUtente> findByUtenteId(Long utenteId);
 
     Optional<CarrelloUtente> findByUtenteIdAndProdottoId(Long utenteId, Long prodottoId);
+
+    void deleteByUtenteIdAndProdottoId(Long utenteId, Long prodottoId);
 }
