@@ -74,4 +74,21 @@ export class CarrelloUtenteService {
       { headers }
     );
   }
+
+  aggiornaQuantita(
+    utenteId: number,
+    prodottoId: number,
+    quantita: number
+  ): Observable<any> {
+    const params = new HttpParams()
+      .set('utenteId', utenteId)
+      .set('prodottoId', prodottoId)
+      .set('quantita', quantita);
+    const headers = this.getAuthHeaders();
+
+    return this.http.patch(`${this.apiUrl}/aggiorna-quantita`, null, {
+      headers,
+      params,
+    });
+  }
 }

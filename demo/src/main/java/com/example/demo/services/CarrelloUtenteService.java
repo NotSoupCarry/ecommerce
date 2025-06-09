@@ -58,4 +58,17 @@ public class CarrelloUtenteService {
     public List<CarrelloUtente> getTuttiICarrelli() {
         return carrelloUtenteRepository.findAll();
     }
+
+    @Transactional
+    public CarrelloUtente aggiornaQuantitaProdotto(Long utenteId, Long prodottoId, int nuovaQuantita) {
+        // Trova l'elemento nel carrello
+        CarrelloUtente carrello = carrelloUtenteRepository
+                .findByUtenteIdAndProdottoId(utenteId, prodottoId)
+                .orElseThrow(() -> new RuntimeException("Prodotto non trovato nel carrello"));
+
+        carrello.setQuantita(nuovaQuantita);
+
+        return carrelloUtenteRepository.save(carrello);
+    }
+
 }

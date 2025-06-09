@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +57,16 @@ public class CarrelloUtenteController {
 
         carrelloUtenteService.eliminaDalCarello(utenteId, prodottoId);
         return ResponseEntity.ok("Prodotto rimosso dal carrello.");
+    }
+
+    @PatchMapping("/aggiorna-quantita")
+    public ResponseEntity<?> aggiornaQuantita(
+            @RequestParam Long utenteId,
+            @RequestParam Long prodottoId,
+            @RequestParam int quantita) {
+
+        CarrelloUtente aggiornato = carrelloUtenteService.aggiornaQuantitaProdotto(utenteId, prodottoId, quantita);
+        return ResponseEntity.ok(aggiornato);
     }
 
 }
