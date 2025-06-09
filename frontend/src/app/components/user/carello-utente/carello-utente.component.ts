@@ -1,10 +1,25 @@
+import { Component, OnInit } from '@angular/core';
+import { CarrelloUtenteService } from '../../../services/carrello-utente.service';
+import { AuthService } from '../../../services/auth.service';
+import { CarrelloUtente } from '../../../models/CarrelloUtente';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-carello-utente',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  templateUrl: './carello-utente.component.html',
+  styleUrl: './carello-utente.component.scss',
+})
 export class CarelloUtenteComponent implements OnInit {
   carrello: CarrelloUtente[] = [];
   errore: string = '';
   totale: number = 0;
 
   modificaQuantitaId: number | null = null; // Id prodotto in modifica
-  quantitaModificata: number = 1;          // Valore della quantità in input
+  quantitaModificata: number = 1; // Valore della quantità in input
 
   constructor(
     readonly carrelloService: CarrelloUtenteService,
@@ -86,7 +101,7 @@ export class CarelloUtenteComponent implements OnInit {
           this.caricaCarrello();
         },
         error: (err) => {
-          this.errore = 'Errore durante l\'aggiornamento della quantità';
+          this.errore = "Errore durante l'aggiornamento della quantità";
           console.error(err);
         },
       });

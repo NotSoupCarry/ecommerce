@@ -86,7 +86,7 @@ export class CarrelloUtenteService {
       .set('quantita', quantita);
     const headers = this.getAuthHeaders();
 
-    return this.http.patch(`${this.apiUrl}/aggiorna-quantita`, null, {
+    return this.http.post(`${this.apiUrl}/aggiorna-quantita`, null, {
       headers,
       params,
     });
