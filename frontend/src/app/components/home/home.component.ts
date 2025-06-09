@@ -27,10 +27,42 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getProdotti();
+    if (this.authService.getUserRole() !== 'ROLE_ADMIN') this.getProdotti();
+    else this.getProdottiAdmin();
   }
 
   getProdotti(): void {
+    this.publicService.getAllProdotti().subscribe({
+      next: (data) => {
+        this.prodotti = data;
+
+        const utenteId = this.authService.getIdUser();
+        if (this.authService.isAuthenticated() && utenteId) {
+          for (const prodotto of this.prodotti) {
+            this.carrelloService
+              .getQuantitaProdottoNelCarrello(utenteId, prodotto.id!)
+              .subscribe({
+                next: (quantita) => {
+                  this.quantita[prodotto.id!] = quantita;
+                },
+                error: (err) => {
+                  // Se non trovato o errore (es: 404), metti 0
+                  console.warn(
+                    `Prodotto ${prodotto.id} non trovato nel carrello. Imposto quantità a 0.`
+                  );
+                  this.quantita[prodotto.id!] = 0;
+                },
+              });
+          }
+        }
+      },
+      error: (err) => {
+        console.error('Errore nel recupero dei prodotti:', err);
+      },
+    });
+  }
+
+  getProdottiAdmin(): void {
     this.publicService.getAllProdotti().subscribe({
       next: (data) => {
         this.prodotti = data;

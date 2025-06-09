@@ -39,4 +39,13 @@ public class CarrelloUtenteController {
         return ResponseEntity.ok(carrelloDTO);
     }
 
+    @GetMapping("/quantita/{utenteId}/{prodottoId}")
+    public ResponseEntity<Integer> visualizzaQuantitaProdottoNelCarrello(
+            @PathVariable Long utenteId,
+            @PathVariable Long prodottoId) {
+
+        int quantita = carrelloUtenteService.getQuantitaProdottoNelCarrello(utenteId, prodottoId);
+        return ResponseEntity.ok(quantita);
+    }
+
 }

@@ -40,6 +40,14 @@ public class CarrelloUtenteService {
         return carrelloUtenteRepository.findByUtenteId(utenteId);
     }
 
+    // Visualizza la quantita del prodotto del carello per prodotto id e utente id
+    public int getQuantitaProdottoNelCarrello(Long utenteId, Long prodottoId) {
+        return carrelloUtenteRepository
+                .findByUtenteIdAndProdottoId(utenteId, prodottoId)
+                .map(CarrelloUtente::getQuantita)
+                .orElse(0); // se non esiste, restituisce 0
+    }
+
     // visualizza tutti i carrelli (admin)
     public List<CarrelloUtente> getTuttiICarrelli() {
         return carrelloUtenteRepository.findAll();

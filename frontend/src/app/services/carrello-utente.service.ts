@@ -14,7 +14,6 @@ export class CarrelloUtenteService {
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken(); // Ottieni il token da AuthService
-    console.log(token);
     return new HttpHeaders({
       Authorization: `Bearer ${token}`, // Aggiungi l'header di autorizzazione
     });
@@ -34,7 +33,6 @@ export class CarrelloUtenteService {
       .set('quantita', quantita);
     const headers = this.getAuthHeaders();
 
-    console.log(headers);
     return this.http.post(`${this.apiUrl}/aggiungi`, null, { headers, params });
   }
 
@@ -46,6 +44,21 @@ export class CarrelloUtenteService {
 
     return this.http.get<CarrelloUtente[]>(
       `${this.apiUrl}/utente/${utenteId}`,
+      { headers }
+    );
+  }
+
+  /**
+   * Restituisce la quantità di un prodotto nel carrello di un utente
+   */
+  getQuantitaProdottoNelCarrello(
+    utenteId: number,
+    prodottoId: number
+  ): Observable<number> {
+    const headers = this.getAuthHeaders();
+
+    return this.http.get<number>(
+      `${this.apiUrl}/quantita/${utenteId}/${prodottoId}`,
       { headers }
     );
   }
