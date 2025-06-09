@@ -1,0 +1,38 @@
+<h2>Registrazione</h2>
+
+<form (submit)="register($event)">
+  <div>
+    <label for="username">Username:</label><br />
+    <input
+      type="text"
+      [(ngModel)]="username"
+      id="username"
+      name="username"
+      required
+      [ngModelOptions]="{ standalone: true }"
+    />
+  </div>
+
+  <div>
+    <label for="password">Password:</label><br />
+    <input
+      type="password"
+      [(ngModel)]="password"
+      id="password"
+      name="password"
+      required
+      [ngModelOptions]="{ standalone: true }"
+    />
+  </div>
+
+  <div>
+    <button type="submit">Registrati</button>
+  </div>
+
+  <p>
+    Sei già registrato?
+    <a [routerLink]="['/login']">Login</a>
+  </p>
+
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
+</form>

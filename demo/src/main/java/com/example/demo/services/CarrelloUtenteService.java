@@ -1,0 +1,47 @@
+package com.example.demo.services;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.models.CarrelloUtente;
+import com.example.demo.models.Prodotto;
+import com.example.demo.models.Utente;
+import com.example.demo.repositories.CarrelloUtenteRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class CarrelloUtenteService {
+
+    private final CarrelloUtenteRepository carrelloUtenteRepository;
+    private final UtenteService utenteService;
+    private final ProdottoService prodottoService;
+
+    // Aggiungi un prodotto al carrello dell'utente loggato
+    @Transactional
+    public CarrelloUtente aggiungiAlCarrello(Long utenteId, Long prodottoId, int quantita) {
+        String username = utenteService.getUtenteById(utenteId).getUsername();
+        Utente utente = utenteService.findByUsername(username);
+        Prodotto prodotto = prodottoService.getProdottoById(prodottoId);
+
+        CarrelloUtente carrello = new CarrelloUtente();
+        carrello.setUtente(utente);
+        carrello.setProdotto(prodotto);
+        carrello.setQuantita(quantita);
+
+        return carrelloUtenteRepository.save(carrello);
+    }
+
+    // Visualizza carrello di un utente specifico
+    public List<CarrelloUtente> getCarrelloByUtenteId(Long utenteId) {
+        return carrelloUtenteRepository.findByUtenteId(utenteId);
+    }
+
+    // visualizza tutti i carrelli (admin)
+    public List<CarrelloUtente> getTuttiICarrelli() {
+        return carrelloUtenteRepository.findAll();
+    }
+}

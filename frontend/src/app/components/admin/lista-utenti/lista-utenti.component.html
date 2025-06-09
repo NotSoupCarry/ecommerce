@@ -1,0 +1,26 @@
+<h2>Lista Utenti</h2>
+
+<div *ngIf="errore" class="errore">
+  {{ errore }}
+</div>
+
+<div *ngIf="!errore && utenti.length === 0">
+  <p>Nessun utente trovato.</p>
+</div>
+
+<table *ngIf="utenti.length > 0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Ruolo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let utente of utenti">
+      <td>{{ utente.id }}</td>
+      <td>{{ utente.username }}</td>
+      <td>{{ utente.ruolo }}</td>
+    </tr>
+  </tbody>
+</table>

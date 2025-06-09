@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <h2>Il tuo carrello</h2>
+
+  <div *ngIf="errore" class="alert alert-danger">
+    {{ errore }}
+  </div>
+
+  <div *ngIf="carrello.length === 0 && !errore">
+    <p>Il carrello è vuoto.</p>
+  </div>
+
+  <table *ngIf="carrello.length > 0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Prodotto</th>
+        <th>Prezzo</th>
+        <th>prezzo singolo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of carrello">
+        <td>{{ item.nomeProdotto }}</td>
+        <td>{{ item.prezzo }}</td>
+        <td>{{ item.quantita| currency:'EUR' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="carrello.length > 0" class="mt-3">
+    <h4>Totale: {{ totale | currency:'EUR' }}</h4>
+  </div>
+
+  <a [routerLink]="['/']">HOME</a>
+</div>

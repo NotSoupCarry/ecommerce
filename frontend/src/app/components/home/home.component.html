@@ -1,0 +1,68 @@
+<h2>Prodotti Disponibili</h2>
+
+<div *ngIf="prodotti.length === 0">
+  <p>Nessun prodotto disponibile.</p>
+</div>
+
+<div *ngFor="let prodotto of prodotti" class="prodotto">
+  <h3>{{ prodotto.nome }}</h3>
+  <p>Descrizione:</p>
+  <p>{{ prodotto.descrizione }}</p>
+  <p><strong>Prezzo:</strong> € {{ prodotto.prezzo }}</p>
+
+  <div
+    *ngIf="
+      authService.isAuthenticated() && authService.getUserRole() === 'ROLE_USER'
+    "
+  >
+    <input
+      type="number"
+      [(ngModel)]="quantita[prodotto.id]"
+      min="1"
+      placeholder="Quantità"
+    />
+    <button
+      (click)="aggiungiAlCarrello(prodotto.id, quantita[prodotto.id] || 1)"
+    >
+      Aggiungi al carrello
+    </button>
+  </div>
+  <div
+    *ngIf="
+      authService.isAuthenticated() && authService.getUserRole() === 'ROLE_ADMIN'
+    "
+  >
+  
+    <button
+      (click)="eliminaProdotto(prodotto.id)"
+    >
+      EliminaProdotto
+    </button>
+  </div>
+</div>
+
+<div *ngIf="!authService.isAuthenticated()">
+  <a [routerLink]="['/login']">Login</a> <br />
+  <a [routerLink]="['/register']">Register</a>
+</div>
+
+<div
+  *ngIf="
+    authService.isAuthenticated() && authService.getUserRole() === 'ROLE_USER'
+  "
+>
+  <a [routerLink]="['/carrello']">Vai al carrello</a> <br />
+</div>
+
+<div
+  *ngIf="
+    authService.isAuthenticated() && authService.getUserRole() === 'ROLE_ADMIN'
+  "
+>
+  <a [routerLink]="['/admin/aggiungiProdotto']">aggiungi un prodotto</a> <br />
+  <a [routerLink]="['/admin/listaUtenti']">visualizza tutti gli utenti</a> <br />
+</div>
+
+<div *ngIf="authService.isAuthenticated()">
+  <a (click)="authService.logout()">Logout</a> <br />
+</div>
